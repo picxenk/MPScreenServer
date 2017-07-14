@@ -22,9 +22,13 @@ class MPCam {
       return "None";
     }
   }
-  
+
   void loadLastImage() {
     String fileName = this.getLastFileName();
-    lastImage = loadImage(sketchPath(mpcamImageFolder)+"/"+id+"/"+fileName);
+    if (fileName.equals("None") || fileName.equals(".DS_Store")) {
+      lastImage = createImage(100, 100, ARGB);
+    } else {
+      lastImage = loadImage(sketchPath(mpcamImageFolder)+"/"+id+"/"+fileName);
+    }
   }
 }
