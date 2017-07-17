@@ -25,7 +25,7 @@ MPImage mpImage;
 int camNumber = 3;
 MPCam[] mpCams = new MPCam[camNumber];
 
-int screenResolution = 5; // check settings()
+int screenResolution = 0; // check settings()
 
 void settings() {
   // 8:3 (4:3 x 2) = 2560x960, 1280x480
@@ -49,7 +49,7 @@ void setup() {
   ws = new WebsocketServer(this, wsPort, "/screenserver");
   
   minim = new Minim(this);
-  shot = minim.loadSample("shot.wav", 512);
+  shot = minim.loadSample("shot1.wav", 512);
   release = minim.loadSample("release.wav", 512);
 
   //MPScreenWidth = floor(height*16/9);
