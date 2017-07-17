@@ -25,7 +25,11 @@ MPImage mpImage;
 int camNumber = 3;
 MPCam[] mpCams = new MPCam[camNumber];
 
+PFont font;
+
 int screenResolution = 0; // check settings()
+int defaultWaitSec = 10;
+int t = defaultWaitSec;
 
 void settings() {
   // 8:3 (4:3 x 2) = 2560x960, 1280x480
@@ -47,10 +51,12 @@ void setup() {
   noStroke();
 
   ws = new WebsocketServer(this, wsPort, "/screenserver");
-  
+
   minim = new Minim(this);
   shot = minim.loadSample("shot1.wav", 512);
   release = minim.loadSample("release.wav", 512);
+  
+  font = loadFont("8bitOperatorPlus8-Bold-40.vlw");
 
   //MPScreenWidth = floor(height*16/9);
   //MPScreenHeight = height;
@@ -72,12 +78,36 @@ void setup() {
 
 
 void draw() {
-    background(0);
-    if (mpImage.roll == 0) {
+  background(0);
+  mpImage.show();
+  if (mpImage.roll == 0) {
+    showTimer(t);
+    if (t <= 0) {
       mpImage.resetRoll();
       mpImage.next();
+      t = defaultWaitSec;
     }
-    mpImage.show();
+    if (frameCount % 10 == 0) {
+      t--;
+    }
+  } 
+  
+}
+
+void showTimer(int s) {
+  int b, sx;
+  if (screenResolution == 5) {
+    b = 10;
+  } else {
+    b = 20;
+  }
+  sx = b * 20;
+  fill(0);
+  noStroke();
+  rect(MPScreenWidth-sx, b, MPScreenWidth-b, b*5);
+  fill(240);
+  textFont(font, b*2);
+  text("NEXT IMAGE: "+str(s)+"s", MPScreenWidth-sx+b, b*4);
 }
 
 
@@ -100,11 +130,11 @@ void keyPressed() {
   if (key =='2') {
     updateMPCamImage(2);
   }
-  
 }
 
 void updateMPCamImage(int id) {
   //updateScreen = true;
+  print(mpImage.roll);print("--");
   println(mpCams[id].getLastFileName());
   mpCams[id].loadLastImage();
   mpCams[id].lastImage.resize(MPScreenWidth, 0);
@@ -141,7 +171,7 @@ void webSocketServerEvent(String msg) {
   if (message.equals("send")) {
     updateMPCamImage(camID);
   }
-  
+
   if (message.equals("shot")) {
     shot.trigger();
   }
