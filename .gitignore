@@ -7,6 +7,6 @@ application.windows64
 application.macosx
 *.jpg
 *.png
-!./initImages/*.jpg
-!./initImages/*.png
+!initImages/*.jpg
+!initImages/*.png
                
