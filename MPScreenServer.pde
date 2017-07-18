@@ -16,6 +16,8 @@ int wsPort = 8080;
 
 WebsocketServer ws;
 
+boolean turnOffMPCam = false;
+
 boolean updateScreen = false;
 String initImageFolder = "initImages";
 String mpcamImageFolder = "MPCams";
@@ -92,6 +94,10 @@ void draw() {
     }
   } 
   
+  if (turnOffMPCam) {
+    showConfirmTurnOffMPCam();
+  }
+  
 }
 
 void showTimer(int s) {
@@ -108,6 +114,17 @@ void showTimer(int s) {
   fill(240);
   textFont(font, b*2);
   text("NEXT IMAGE: "+str(s)+"s", MPScreenWidth-sx+b, b*4);
+}
+
+void showConfirmTurnOffMPCam() {
+  fill(0);
+  rectMode(CENTER);
+  rect(MPScreenWidth/2, MPScreenHeight/2, MPScreenWidth/2, MPScreenHeight/2);
+  fill(250);
+  textAlign(CENTER, CENTER);
+  textFont(font, 20);
+  text("Turn off MetaPixelCamera? y / n", MPScreenWidth/2, MPScreenHeight/2);
+  rectMode(CORNER);
 }
 
 
@@ -137,6 +154,17 @@ void keyPressed() {
   if (key == 'n') {
     mpImage.next();
     mpImage.resetRoll();
+  }
+  if (key == 'p') {
+    turnOffMPCam = true;
+  }
+  if (turnOffMPCam && key == 'y') {
+    ws.sendMessage("turnoff");
+    mpImage.currentInitImage = -1;
+    mpImage.resetRoll();
+  }
+  if (turnOffMPCam && key == 'n') {
+    turnOffMPCam = false;
   }
 }
 
