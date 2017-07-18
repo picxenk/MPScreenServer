@@ -103,17 +103,17 @@ void draw() {
 void showTimer(int s) {
   int b, sx;
   if (screenResolution == 5) {
-    b = 10;
+    b = 5;
   } else {
-    b = 20;
+    b = 10;
   }
-  sx = b * 20;
+  sx = b * 50;
   fill(0);
   noStroke();
-  rect(MPScreenWidth-sx, b, MPScreenWidth-b, b*5);
+  rect(MPScreenWidth-sx, b, MPScreenWidth-b, b*7);
   fill(240);
-  textFont(font, b*2);
-  text("NEXT IMAGE: "+str(s)+"s", MPScreenWidth-sx+b, b*4);
+  textFont(font, b*5);
+  text("NEXT IMAGE: "+str(s)+"s", MPScreenWidth-sx+b, b*6);
 }
 
 void showConfirmTurnOffMPCam() {
