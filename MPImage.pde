@@ -77,7 +77,7 @@ class MPImage {
   
   void next() {
     currentInitImage++;
-    if (currentInitImage >= initImages.size()) currentInitImage = -1;
+    if (currentInitImage >= initImages.size()) currentInitImage = 0;
   }
 
 

@@ -27,7 +27,7 @@ MPCam[] mpCams = new MPCam[camNumber];
 
 PFont font;
 
-int screenResolution = 0; // check settings()
+int screenResolution = 5; // check settings()
 int defaultWaitSec = 10;
 int t = defaultWaitSec;
 
@@ -129,6 +129,14 @@ void keyPressed() {
   }
   if (key =='2') {
     updateMPCamImage(2);
+  }
+  if (key =='t') {
+    mpImage.currentInitImage = -1;
+    mpImage.resetRoll();
+  }
+  if (key == 'n') {
+    mpImage.next();
+    mpImage.resetRoll();
   }
 }
 
