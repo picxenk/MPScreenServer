@@ -16,6 +16,8 @@ int wsPort = 8080;
 
 WebsocketServer ws;
 
+int status = -1; // -1:ready, 0~2:cam is processing
+int lastStatusUpdateTime = 0;
 boolean turnOffMPCam = false;
 
 boolean updateScreen = false;
@@ -57,7 +59,7 @@ void setup() {
   minim = new Minim(this);
   shot = minim.loadSample("shot1.wav", 512);
   release = minim.loadSample("release.wav", 512);
-  
+
   font = loadFont("8bitOperatorPlus8-Bold-40.vlw");
 
   //MPScreenWidth = floor(height*16/9);
@@ -93,9 +95,18 @@ void draw() {
       t--;
     }
   } 
-  
+
   if (turnOffMPCam) {
     showConfirmTurnOffMPCam();
+  }
+  
+  // to check long cam process
+  if (status > -1) {
+    if (millis() - lastStatusUpdateTime > 90000) {
+      status = -1;
+      ws.sendMessage(str(status));
+      lastStatusUpdateTime = millis();
+    }
   }
   
 }
@@ -170,7 +181,8 @@ void keyPressed() {
 
 void updateMPCamImage(int id) {
   //updateScreen = true;
-  print(mpImage.roll);print("--");
+  print(mpImage.roll);
+  print("--");
   println(mpCams[id].getLastFileName());
   mpCams[id].loadLastImage();
   mpCams[id].lastImage.resize(MPScreenWidth, 0);
@@ -204,14 +216,22 @@ void webSocketServerEvent(String msg) {
   println(camID);
   println(message);
 
+  if (message.equals("live")) {
+    ws.sendMessage(str(status));
+  }
   if (message.equals("send")) {
     updateMPCamImage(camID);
+    status = -1;
+    ws.sendMessage(str(status));
   }
 
   if (message.equals("shot")) {
     shot.trigger();
+    status = camID;
+    lastStatusUpdateTime = millis(); // to check long cam process
+    ws.sendMessage(str(status));
   }
   if (message.equals("release")) {
-    release.trigger();
+    //release.trigger();
   }
 }
