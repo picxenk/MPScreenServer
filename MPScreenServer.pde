@@ -35,7 +35,7 @@ MPCam[] mpCams = new MPCam[camNumber];
 PFont font;
 
 int screenResolution = 0; // check settings()
-int defaultWaitSec = 10;
+int defaultWaitSec = 15;
 int t = defaultWaitSec;
 
 void settings() {
@@ -126,10 +126,30 @@ void showTimer(int s) {
   sx = b * 50;
   fill(0);
   noStroke();
-  rect(MPScreenWidth-sx, b, MPScreenWidth-b, b*7);
+  rect(MPScreenWidth-sx, MPScreenHeight-b*8, MPScreenWidth-b, b*7);
   fill(240);
   textFont(font, b*5);
-  text("NEXT IMAGE: "+str(s)+"s", MPScreenWidth-sx+b, b*6);
+  text("NEXT IMAGE: "+str(s)+"s", MPScreenWidth-sx+b, MPScreenHeight-b*3);
+}
+
+void showMPImageCaption(int id) {
+  int b, sx;
+  int s = 0;
+  if (screenResolution == 5) {
+    b = 5;
+  } else {
+    b = 10;
+  }
+  sx = b * 60;
+  fill(0);
+  noStroke();
+  rect(MPScreenWidth-sx, MPScreenHeight-b*8, MPScreenWidth-b, b*7);
+  fill(240);
+  textFont(font, b*5);
+  if (id == 0) s = 2;
+  if (id == 1) s = 3;
+  if (id == 2) s = 1;
+  text("Image from camera #"+str(s), MPScreenWidth-sx+b, MPScreenHeight-b*3);
 }
 
 void showConfirmTurnOffMPCam() {
