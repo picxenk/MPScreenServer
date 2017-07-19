@@ -63,7 +63,7 @@ void setup() {
   shot = minim.loadSample("shot1.wav", 512);
   release = minim.loadSample("release.wav", 512);
   noise = minim.loadSample("noise.wav", 512);
-  feedback = minim.loadFile("sound110_reveb_loopV2.wav", 1024*3);
+  feedback = minim.loadFile("sound126R_loop.wav", 1024*2);
 
   font = loadFont("8bitOperatorPlus8-Bold-40.vlw");
 
