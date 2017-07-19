@@ -9,6 +9,9 @@ import ddf.minim.*;
 Minim minim;
 AudioSample shot;
 AudioSample release;
+AudioSample noise;
+AudioPlayer feedback;
+
 
 // ########## Configurations ########## 
 int wsPort = 8080;
@@ -59,6 +62,9 @@ void setup() {
   minim = new Minim(this);
   shot = minim.loadSample("shot1.wav", 512);
   release = minim.loadSample("release.wav", 512);
+  noise = minim.loadSample("noise.wav", 512);
+  feedback = minim.loadFile("sound110_reveb_loop.wav", 1024*3);
+  
 
   font = loadFont("8bitOperatorPlus8-Bold-40.vlw");
 
@@ -220,13 +226,17 @@ void webSocketServerEvent(String msg) {
     ws.sendMessage(str(status));
   }
   if (message.equals("send")) {
+    noise.trigger();
     updateMPCamImage(camID);
     status = -1;
     ws.sendMessage(str(status));
+    feedback.pause();
+    feedback.rewind();
   }
 
   if (message.equals("shot")) {
     shot.trigger();
+    feedback.loop();
     status = camID;
     lastStatusUpdateTime = millis(); // to check long cam process
     ws.sendMessage(str(status));
