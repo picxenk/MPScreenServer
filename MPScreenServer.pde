@@ -64,6 +64,7 @@ void setup() {
   release = minim.loadSample("release.wav", 512);
   noise = minim.loadSample("noise.wav", 512);
   feedback = minim.loadFile("sound110_reveb_loop.wav", 1024*3);
+  feedback.setVolume(0.8);
   
 
   font = loadFont("8bitOperatorPlus8-Bold-40.vlw");
