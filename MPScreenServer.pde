@@ -95,16 +95,22 @@ void draw() {
       mpImage.resetRoll();
       mpImage.next();
       t = defaultWaitSec;
+      // become ready
+      status = -1;
+      ws.sendMessage(str(status));
     }
     if (frameCount % 10 == 0) {
       t--;
+      // Do not shot now
+      status = -2;
+      ws.sendMessage(str(status));
     }
   } 
 
   if (turnOffMPCam) {
     showConfirmTurnOffMPCam();
   }
-  
+
   // to check long cam process
   if (status > -1) {
     if (millis() - lastStatusUpdateTime > 90000) {
@@ -113,7 +119,6 @@ void draw() {
       lastStatusUpdateTime = millis();
     }
   }
-  
 }
 
 void showTimer(int s) {
@@ -126,10 +131,12 @@ void showTimer(int s) {
   sx = b * 50;
   fill(0);
   noStroke();
-  rect(MPScreenWidth-sx, MPScreenHeight-b*8, MPScreenWidth-b, b*7);
+  //rect(MPScreenWidth-sx, MPScreenHeight-b*8, MPScreenWidth-b, b*7);
+  rect(MPScreenWidth-sx, b, MPScreenWidth-b, b*7);
   fill(240);
   textFont(font, b*5);
-  text("NEXT IMAGE: "+str(s)+"s", MPScreenWidth-sx+b, MPScreenHeight-b*3);
+  //text("NEXT IMAGE: "+str(s)+"s", MPScreenWidth-sx+b, MPScreenHeight-b*3);
+  text("NEXT IMAGE: "+str(s)+"s", MPScreenWidth-sx+b, b*6);
 }
 
 void showMPImageCaption(int id) {
