@@ -34,7 +34,7 @@ MPCam[] mpCams = new MPCam[camNumber];
 
 PFont font;
 
-int screenResolution = 5; // check settings()
+int screenResolution = 0; // check settings()
 int defaultWaitSec = 15;
 int t = defaultWaitSec;
 
