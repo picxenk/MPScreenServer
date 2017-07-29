@@ -34,7 +34,7 @@ MPCam[] mpCams = new MPCam[camNumber];
 
 PFont font;
 
-int screenResolution = 0; // check settings()
+int screenResolution = 5; // check settings()
 int defaultWaitSec = 15;
 int t = defaultWaitSec;
 
@@ -134,9 +134,10 @@ void showTimer(int s) {
   //rect(MPScreenWidth-sx, MPScreenHeight-b*8, MPScreenWidth-b, b*7);
   rect(MPScreenWidth-sx, b, MPScreenWidth-b, b*7);
   fill(240);
+  textAlign(LEFT, BOTTOM);
   textFont(font, b*5);
   //text("NEXT IMAGE: "+str(s)+"s", MPScreenWidth-sx+b, MPScreenHeight-b*3);
-  text("NEXT IMAGE: "+str(s)+"s", MPScreenWidth-sx+b, b*6);
+  text("NEXT IMAGE: "+str(s)+"s", MPScreenWidth-sx+b, b*7);
 }
 
 void showMPImageCaption(int id) {
